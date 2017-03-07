@@ -1,0 +1,193 @@
+$site-background : #edf0f1 ;
+$player : #455FEA ;
+$search : #A652E7 ;
+$font : 'Roboto', sans-serif;
+$shadow : 0px 2px 4px rgba(0,0,0,0.5);
+$w-border: 1px solid white;
+$text-color : #444;
+
+$pallete-white: #fff;
+$pallete-black : #000;
+
+@mixin transition($time){
+	transition: all $time ease-in-out;
+}
+
+@mixin progress($width){
+	width: $width;
+	height: 12px;
+	position: absolute;
+	top: 80px;
+}
+
+* {
+	outline: none;
+	border: none;
+	&::focus-inner {
+	border: none;
+	}
+	&::-moz-focus-inner {
+	border: none;
+	}
+}
+
+body {
+	background-color: $site-background;
+	font-family: $font;
+	user-select: none;
+}
+
+input, button {
+	font-family: $font;
+}
+
+.player {
+	width: 60%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	background-color: rgba($pallete-white,0.3);
+	box-shadow: $shadow ;
+	border-right: 2px solid $pallete-white;
+	padding: {
+		top: 142px;
+	}
+	overflow: hidden;
+
+	header {
+		width: 100%;
+		height: 80px;
+		position: absolute;
+		padding: 15px;
+		top: 0px;
+		z-index: 5;
+		background-color: $player;
+		box-shadow: $shadow ;
+
+		input {
+			width: 100%;
+			height: 50px;
+			color: $pallete-white;
+			font-size: 1em;
+			font-weight: 400;
+			text-indent: 18px;
+			padding:{
+				right: 60px;
+			}
+			background-color: rgba($pallete-white,0.2);
+			border-radius: 5px 25px 25px 5px;
+			border: 1px solid rgba($pallete-white,0.5);
+			appearance: none;
+		}
+
+		button {
+			width: 50px;
+			height: 50px;
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			z-index: 2;
+			border-radius: 25px;
+			background-color: $pallete-white;
+			border: none;
+			box-shadow: 0px 0px 10px rgba($pallete-black,0.5);
+			@include transition(.1s);
+
+			&:hover {
+				cursor: pointer;
+				@include transition(.1s);
+				box-shadow: 0px 0px 7px rgba($pallete-black,0.5);
+			}
+
+			&:active {
+				@include transition(.1s);
+				box-shadow: 0px 0px 1px rgba($pallete-black,0.5);
+			}
+
+			svg {
+				width: 16px;
+				height: 16px;
+
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin: {
+					top: -8px;
+					left: -8px;
+				}
+
+				.fill {
+					fill: $player;
+				}
+			}
+		/*button*/
+		}
+	/*header*/	
+	}
+
+/*player*/	
+}
+
+@mixin progress($w,$z,$bg,$so) {
+	width: $w;
+	height: 12px;
+	position: absolute;
+	top: 80px;
+	left: 0;
+	z-index: $z;
+	background-color: $bg;
+	box-shadow: 0px 1px 2px rgba($pallete-black,$so);
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+#progress {
+	@include progress(10%,4,rgba($pallete-white,0.9),0.3);
+}
+
+#progressback {
+	@include progress(100%,3,rgba($player ,0.6),0.3);
+	border : $w-border;
+	border-right: none;
+}
+
+.container {
+	width: 100%;
+	float: left;
+	padding: 15px;
+
+	ul {
+		width: 100%;
+		float: left;
+
+		li {
+			width: 100%;
+			height: 50px;
+			float: left;
+			font-size: 14px;
+			font-weight: 500;
+			color: $text-color;
+			line-height: 22px;
+			background-color: $pallete-white;
+			border-radius: 6px;
+			position: relative;
+			box-shadow: $shadow;
+			margin : {bottom: 10px;}
+			padding: 14px 100px 14px 14px;
+			@include transition(0.4s);
+
+			&:first-child {
+				position: absolute;
+				border-radius: 0px 0px 6px 6px;
+				width: 100%;
+				top: 92px;
+				left: 0;
+				z-index: 6;
+				box-shadow: $shadow;
+				background-color: rgba($player,0.6);
+				@include transition(0.4s);
+			}
+		}
+	}
+}

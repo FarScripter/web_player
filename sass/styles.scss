@@ -5,7 +5,6 @@ $font : 'Roboto', sans-serif;
 $shadow : 0px 2px 4px rgba(0,0,0,0.5);
 $w-border: 1px solid white;
 $text-color : #444;
-
 $pallete-white: #fff;
 $pallete-black : #000;
 
@@ -13,11 +12,78 @@ $pallete-black : #000;
 	transition: all $time ease-in-out;
 }
 
-@mixin progress($width){
+@mixin progress($w,$z,$bg,$so) {
+	@include whpt($w,12px,absolute,80px)
+	z-index: $z;
+	background-color: $bg;
+	box-shadow: 0px 1px 2px rgba($pallete-black,$so);
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+@mixin buttons($width,$height){
 	width: $width;
-	height: 12px;
+	height: $height;
 	position: absolute;
-	top: 80px;
+	top: 0;
+	right: 0;
+}
+
+@mixin whpt($w,$h,$p,$t){
+	width: $w;
+	height: $h;
+	position: $p;
+	top: $t;
+}
+
+@mixin input(){
+	width: 100%;
+	height: 50px;
+	color: $pallete-white;
+	font-size: 1em;
+	font-weight: 400;
+	text-indent: 18px;
+	padding-right: 60px;
+	background-color: rgba($pallete-white,0.2);
+	border-radius: 5px 25px 25px 5px;
+	border: 1px solid rgba($pallete-white,0.5);
+	appearance: none;
+}
+
+@mixin header-button($color,$svgW,$swgH){
+	@include whpt(50px,50px,absolute,15px);
+	right: 15px;
+	z-index: 2;
+	border-radius: 25px;
+	background-color: $pallete-white;
+	border: none;
+	box-shadow: 0px 0px 10px rgba($pallete-black,0.5);
+	@include transition(.1s);
+
+	&:hover {
+		cursor: pointer;
+		@include transition(.1s);
+		box-shadow: 0px 0px 7px rgba($pallete-black,0.5);
+	}
+
+	&:active {
+		@include transition(.1s);
+		box-shadow: 0px 0px 1px rgba($pallete-black,0.5);
+	}
+
+	svg {
+		@include whpt($svgW,$swgH,absolute,50%);
+		left: 50%;
+		margin: {
+			top: -$swgH/2;
+			left: -$swgH/2;
+		}
+
+		.fill {
+			fill: $color;
+		}
+	}
 }
 
 * {
@@ -37,109 +103,33 @@ body {
 	user-select: none;
 }
 
-input, button {
-	font-family: $font;
-}
-
 .player {
-	width: 60%;
-	height: 100%;
-	position: absolute;
-	top: 0px;
+	@include whpt(60%,100%,absolute,0);
 	background-color: rgba($pallete-white,0.3);
 	box-shadow: $shadow ;
 	border-right: 2px solid $pallete-white;
-	padding: {
-		top: 142px;
-	}
+	padding-top: 142px;
 	overflow: hidden;
 
 	header {
-		width: 100%;
-		height: 80px;
-		position: absolute;
+		@include whpt(100%,80px,absolute,0);
 		padding: 15px;
-		top: 0px;
 		z-index: 5;
 		background-color: $player;
 		box-shadow: $shadow ;
 
 		input {
-			width: 100%;
-			height: 50px;
-			color: $pallete-white;
-			font-size: 1em;
-			font-weight: 400;
-			text-indent: 18px;
-			padding:{
-				right: 60px;
-			}
-			background-color: rgba($pallete-white,0.2);
-			border-radius: 5px 25px 25px 5px;
-			border: 1px solid rgba($pallete-white,0.5);
-			appearance: none;
+			@include input();
 		}
 
 		button {
-			width: 50px;
-			height: 50px;
-			position: absolute;
-			top: 15px;
-			right: 15px;
-			z-index: 2;
-			border-radius: 25px;
-			background-color: $pallete-white;
-			border: none;
-			box-shadow: 0px 0px 10px rgba($pallete-black,0.5);
-			@include transition(.1s);
-
-			&:hover {
-				cursor: pointer;
-				@include transition(.1s);
-				box-shadow: 0px 0px 7px rgba($pallete-black,0.5);
-			}
-
-			&:active {
-				@include transition(.1s);
-				box-shadow: 0px 0px 1px rgba($pallete-black,0.5);
-			}
-
-			svg {
-				width: 16px;
-				height: 16px;
-
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				margin: {
-					top: -8px;
-					left: -8px;
-				}
-
-				.fill {
-					fill: $player;
-				}
-			}
+			@include header-button($player,16px,16px);
 		/*button*/
 		}
 	/*header*/	
 	}
 
 /*player*/	
-}
-
-@mixin progress($w,$z,$bg,$so) {
-	width: $w;
-	height: 12px;
-	position: absolute;
-	top: 80px;
-	left: 0;
-	z-index: $z;
-	background-color: $bg;
-	box-shadow: 0px 1px 2px rgba($pallete-black,$so);
-	&:hover {
-		cursor: pointer;
-	}
 }
 
 #progress {
@@ -152,11 +142,13 @@ input, button {
 	border-right: none;
 }
 
-.container {
+.player .container {
 	width: 100%;
+	height: 100%;
+	overflow: scroll;
 	float: left;
 	padding: 15px;
-
+	
 	ul {
 		width: 100%;
 		float: left;
@@ -188,6 +180,153 @@ input, button {
 				background-color: rgba($player,0.6);
 				@include transition(0.4s);
 			}
+		}
+	}
+}
+
+.player .container ul li .buttons {
+	@include buttons(50px,50px)
+
+	button {
+		width: 50px;
+		height: 50px;
+		float: left;
+		background: none;
+		position: relative;
+		border: 0px;
+
+		box-shadow: none;
+		cursor: pointer;
+
+		appearance: none;
+
+		@include transition(0.4s);
+	}
+
+	button svg {
+		width: 22px;
+		height: 22px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin: -11px 0 0 -11px;
+		@include transition(0.4s);
+	}
+
+	.remove svg .fill {
+		fill: #c0cecb;
+	}
+
+	.remove:hover svg .fill {
+		fill: #e85656;
+	}
+
+	.noFill {
+		fill: none;
+	}
+}
+
+.player .container ul li:first-of-type .buttons {
+	@include buttons(250px,50px);
+	
+	#pauseB,
+	#autoB,
+	#randB,
+	#nextB,
+	#stopB {
+		color: white;
+		text-indent: 0px;
+		font-size: 13px;
+	}
+
+	#pauseB:before,
+	#autoB:before,
+	#randB:before,
+	#nextB:before,
+	#stopB:before {
+		content: '';
+		width: 1px;
+		height: 30px;
+		background: #edf0f1;
+		position: absolute;
+		top: 10px;
+		left: 0;
+	}
+
+	.control svg {
+		border-radius: 11px;
+  		border: 1.5px solid rgba(255,255,255,0.6);
+  		@include transition(0.4s);
+	}
+	.control:hover svg {
+  		border: 1.5px solid #455FEA;
+  		@include transition(0.4s);
+	}
+}
+
+.listOfGroups {
+	@include whpt(40%,100%,absolute,0);
+	left: 60%;
+	background-color: rgba($pallete-white,0.3);
+	box-shadow: $shadow;
+	padding-top: 80px;
+	overflow: hidden;
+	z-index: 4;
+
+	header {
+		@include whpt(100%,80px,absolute,0);
+		padding: 15px;
+		z-index: 4;
+
+		background: $search;
+		box-shadow: $shadow;
+
+		input {
+			@include input();
+		}
+
+		button {
+			@include header-button($search,30px,30px);
+
+		}
+	}
+	
+	.noFill {
+		fill: none;
+	}		
+}
+
+.listOfGroups .container {
+	overflow: scroll;
+	height: 100%;
+	padding: 15px;
+
+	ul {
+		width: 100%;
+		li {
+			width: 100%;
+			min-height: 50px;
+			float: left;
+			font-size: 14px;
+			font-weight: 500;
+			color: #444;
+			line-height: 22px;
+
+			background: #fff;
+			border-radius: 5px;
+			position: relative;
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+			margin: 0 0 10px 0;
+			padding: 14px 100px 14px 14px;
+			user-select: none;
+
+			@include transition(0.4s);
+		}
+
+		li:hover {
+			background: rgba($search,0.7);
+		    color: #fff;
+		    cursor: pointer;
 		}
 	}
 }

@@ -256,5 +256,4 @@ function addItemIfNoRepeated(value1){
         } , 1500);
     }
 }
-
-// 295 строка AddItem1 
+// addItem1
